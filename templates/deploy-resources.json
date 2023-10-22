@@ -84,13 +84,6 @@
                 "description": "Publisher Email"
             }
         },
-        "publicIPAddress": {
-            "type": "string",
-            "defaultValue": "pip-apim-cloudworkshop",
-            "metadata": {
-                "description": "API Management のパブリック IP アドレス"
-            }
-        },
         "logAnalyticsWorkspace": {
             "type": "string",
             "defaultValue": "log-1",
@@ -127,7 +120,8 @@
     "functions": [],
     "variables": {
         "nsgName1": "[concat('nsg-', parameters('virtualNetwork'), '-subnet-1')]",
-        "nsgName2": "[concat('nsg-', parameters('virtualNetwork'), '-subnets')]"
+        "nsgName2": "[concat('nsg-', parameters('virtualNetwork'), '-subnets')]",
+        "publicIPAddress": "[concat('pip-', parameters('apiManagement'))]"
     },
     "resources": [
         {
@@ -364,7 +358,7 @@
         {
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2022-09-01",
-            "name": "[parameters('publicIPAddress')]",
+            "name": "[variables('publicIPAddress')]",
             "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Standard",
@@ -391,7 +385,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetwork'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), parameters('subnet1'))]",
-                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddress'))]"
+                "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddress'))]"
             ],
             "properties": {
                 "publisherEmail": "[parameters('publisherEmail')]",
@@ -420,7 +414,7 @@
                 "netGatewayState": "Disabled",
                 "apiVersionConstraint": {},
                 "publicNetworkAccess": "Enabled",
-                "publicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddress'))]",
+                "publicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddress'))]",
                 "legacyPortalStatus": "Enabled",
                 "developerPortalStatus": "Enabled"
             }

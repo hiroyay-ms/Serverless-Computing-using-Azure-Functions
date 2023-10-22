@@ -13,7 +13,7 @@ FY24
 
 <br />
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhiroyay-ms%2FServer-Computing-using-Azure-Functions%2Fmain%2Ftemplates%2Fdeploy-vnet-hub.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhiroyay-ms%2FServerless-Computing-using-Azure-Functions%2Fmain%2Ftemplates%2Fdeploy-vnet-hub.json)
 
 ### パラメーター
 
@@ -39,13 +39,29 @@ FY24
 
 <br />
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhiroyay-ms%2FServer-Computing-using-Azure-Functions%2Fmain%2Ftemplates%2Fdeploy-resources.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhiroyay-ms%2FServerless-Computing-using-Azure-Functions%2Fmain%2Ftemplates%2Fdeploy-resources.json)
 
 ### パラメーター
 
 - **virtualNetwork**: 仮想ネットワーク名（2 ～ 64 文字/英数字、アンダースコア、ピリオド、およびハイフン）
 
-  ※ IPv4 アドレス空間は 10.1.0.0/16 で作成
+- **addressPrefix**: IPv4 アドレス空間
+
+- **subnet1**: サブネットの名前 (1)（1 ～ 80 文字/英数字、アンダースコア、ピリオド、およびハイフン）
+
+- **subnet1Prefix**: サブネット アドレス範囲 (1)
+
+- **subnet2**: サブネットの名前 (1)（1 ～ 80 文字/英数字、アンダースコア、ピリオド、およびハイフン）
+
+- **subnet2Prefix**: サブネット アドレス範囲 (1)
+
+- **subnet3**: サブネットの名前 (1)（1 ～ 80 文字/英数字、アンダースコア、ピリオド、およびハイフン）
+
+- **subnet3Prefix**: サブネット アドレス範囲 (1)
+
+- **subnetvm**: サブネットの名前 (1)（1 ～ 80 文字/英数字、アンダースコア、ピリオド、およびハイフン）
+
+- **subnetvmPrefix**: サブネット アドレス範囲 (1)
 
 - **apiManagement**: API Management (50 文字以下/英数字、およびハイフン)
 

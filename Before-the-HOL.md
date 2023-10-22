@@ -67,8 +67,6 @@ FY24
 
 - **publisherEmail**: 通知を受信するためのメール アドレス
 
-- **publicIPAddress**: API Management のパブリック IP アドレス (英数字、アンダースコア、ピリオド、およびハイフン)
-
 - **logAnalyticsWorkspace**: Log Analytics ワークスペース (4 ～ 63 文字/英数字、およびハイフン)
 
 - **keyVaultName**: Key Vault (3 ～ 24 文字/英数字、およびハイフン)

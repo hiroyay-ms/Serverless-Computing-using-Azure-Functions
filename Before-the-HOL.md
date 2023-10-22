@@ -13,7 +13,7 @@ FY24
 
 <br />
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhiroyay-ms%2FServer-Computing-using-Azure-Functions%2Fmain%2Ftemplates%2Fdeploy-vnet-hub.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhiroyay-ms%2FServerless-Computing-using-Azure-Functions%2Fmain%2Ftemplates%2Fdeploy-vnet-hub.json)
 
 ### パラメーター
 
@@ -39,7 +39,7 @@ FY24
 
 <br />
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhiroyay-ms%2FServer-Computing-using-Azure-Functions%2Fmain%2Ftemplates%2Fdeploy-resources.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhiroyay-ms%2FServerless-Computing-using-Azure-Functions%2Fmain%2Ftemplates%2Fdeploy-resources.json)
 
 ### パラメーター
 

@@ -8,6 +8,57 @@
             "metadata": {
                 "description": "仮想ネットワーク名 (10.1.0.0/16)"
             }
+        },
+        "apiManagement": {
+            "type": "string",
+            "metadata": {
+                "description": "API Management (外部公開のホスト名としても使用)"
+            }
+        },
+        "publisherEmail": {
+            "type": "string",
+            "metadata": {
+                "description": "Publisher Email"
+            }
+        },
+        "publicIPAddress": {
+            "type": "string",
+            "defaultValue": "pip-apim-cloudworkshop",
+            "metadata": {
+                "description": "API Management のパブリック IP アドレス"
+            }
+        },
+        "logAnalyticsWorkspace": {
+            "type": "string",
+            "defaultValue": "log-1",
+            "metadata": {
+                "description": "Log Analytics Workspace"
+            }
+        },
+        "keyVaultName": {
+            "type": "string",
+            "metadata": {
+                "description": "Key Vault"
+            }
+        },
+        "sqlServer": {
+            "type": "string",
+            "metadata": {
+                "description": "SQL Server 名"
+            }
+        },
+        "sqlAdministratorLogin": {
+            "type": "string",
+            "defaultValue": "sqladmin",
+            "metadata": {
+                "description": "SQL サーバー管理者"
+            }
+        },
+        "sqlAdministratorPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "パスワード"
+            }
         }
     },
     "functions": [],
@@ -209,7 +260,8 @@
                     "name": "[variables('subnet2')]",
                     "dependsOn": [
                         "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName2'))]",
-                        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetwork'))]"
+                        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetwork'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet1'))]"
                     ],
                     "properties": {
                         "addressPrefix": "[variables('subnet2Prefix')]",
@@ -224,7 +276,9 @@
                     "name": "[variables('subnet3')]",
                     "dependsOn": [
                         "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName2'))]",
-                        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetwork'))]"
+                        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetwork'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet1'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet2'))]"
                     ],
                     "properties": {
                         "addressPrefix": "[variables('subnet3Prefix')]",
@@ -239,13 +293,202 @@
                     "name": "[variables('subnetvm')]",
                     "dependsOn": [
                         "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName2'))]",
-                        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetwork'))]"
+                        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetwork'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet1'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet2'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet3'))]"
                     ],
                     "properties": {
                         "addressPrefix": "[variables('subnetvmPrefix')]",
                         "networkSecurityGroup": {
                             "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName2'))]"
                         }
+                    }
+                }
+            ]
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2022-09-01",
+            "name": "[parameters('publicIPAddress')]",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "Standard",
+                "tier": "Regional"
+            },
+            "properties": {
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Static",
+                "idleTimeoutInMinutes": 4,
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('apiManagement')]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service",
+            "apiVersion": "2023-03-01-preview",
+            "name": "[parameters('apiManagement')]",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "Developer",
+                "capacity": 1
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetwork'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet1'))]",
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddress'))]"
+            ],
+            "properties": {
+                "publisherEmail": "[parameters('publisherEmail')]",
+                "publisherName": "MCW",
+                "hostnameConfigurations": [
+                    {
+                        "type": "Proxy",
+                        "hostName": "[concat(parameters('apiManagement'), '.azure-api.net')]"
+                    }
+                ],
+                "virtualNetworkConfiguration": {
+                    "subnetResourceId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet1'))]"
+                },
+                "customProperties": {
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": "false",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "false",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": "false",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": "false",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": "true",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "true",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168": "true",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30": "true"
+                },
+                "virtualNetworkType": "External",
+                "disableGateway": false,
+                "netGatewayState": "Disabled",
+                "apiVersionConstraint": {},
+                "publicNetworkAccess": "Enabled",
+                "publicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddress'))]",
+                "legacyPortalStatus": "Enabled",
+                "developerPortalStatus": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis",
+            "apiVersion": "2023-03-01-preview",
+            "name": "[concat(parameters('apiManagement'), '/echo-api')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagement'))]"
+            ],
+            "properties": {
+                "displayName": "Echo API",
+                "apiRevision": "1",
+                "subscriptionRequired": true,
+                "serviceUrl": "http://echoapi.cloudapp.net/api",
+                "path": "echo",
+                "protocols": [
+                    "https"
+                ],
+                "authenticationSettings": {
+                    "oAuth2AuthenticationSettings": [],
+                    "openidAuthenticationSettings": []
+                },
+                "subscriptionKeyParameterNames": {
+                    "header": "Ocp-Apim-Subscription-Key",
+                    "query": "subscription-key"
+                },
+                "isCurrent": true
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces",
+            "apiVersion": "2021-06-01",
+            "name": "[parameters('logAnalyticsWorkspace')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "sku": {
+                    "name": "PerGB2018"
+                },
+                "retentionInDays": 30
+            }
+        },
+        {
+            "type": "Microsoft.KeyVault/vaults",
+            "apiVersion": "2022-07-01",
+            "name": "[parameters('keyVaultName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "sku": {
+                    "family": "A",
+                    "name": "standard"
+                },
+                "tenantId": "[subscription().tenantId]",
+                "accessPolicies": [],
+                "enabledForDeployment": false,
+                "enabledForDiskEncryption": false,
+                "enabledForTemplateDeployment": false,
+                "enableSoftDelete": true,
+                "softDeleteRetentionInDays": 90,
+                "enableRbacAuthorization": true,
+                "provisioningState": "Succeeded",
+                "publicNetworkAccess": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2021-05-01-preview",
+            "name": "[parameters('sqlServer')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "version": "12.0",
+                "publicNetworkAccess": "Enabled",
+                "administratorLogin": "[parameters('sqlAdministratorLogin')]",
+                "administratorLoginPassword": "[parameters('sqlAdministratorPassword')]",
+                "minimalTlsVersion": "1.2"
+            },
+            "resources": [
+                {
+                    "type": "databases",
+                    "apiVersion": "2021-05-01-preview",
+                    "name": "AdventureWorksLT",
+                    "location": "[resourceGroup().location]",
+                    "sku": {
+                        "name": "GP_S_Gen5_1",
+                        "tier": "GeneralPurpose"
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', parameters('sqlServer'))]"
+                    ],
+                    "properties": {
+                        "collation": "SQL_Latin1_General_CP1_CI_AS",
+                        "edition": "Basic",
+                        "maxSizeBytes": 5368709120,
+                        "minCapacity": 0.5,
+                        "sampleName": "AdventureWorksLT",
+                        "requestedBackupStorageRedundancy": "Local"
+                    }
+                },
+                {
+                    "type": "firewallRules",
+                    "apiVersion": "2021-11-01",
+                    "name": "AllowAllWindowsAzureIps",
+                    "location": "[resourceGroup().location]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', parameters('sqlServer'))]"
+                    ],
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "0.0.0.0"
+                    }
+                },
+                {
+                    "type": "connectionPolicies",
+                    "apiVersion": "2021-11-01",
+                    "name": "Default",
+                    "location": "[resourceGroup().location]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', parameters('sqlServer'))]"
+                    ],
+                    "properties": {
+                        "connectionType": "Default"
                     }
                 }
             ]

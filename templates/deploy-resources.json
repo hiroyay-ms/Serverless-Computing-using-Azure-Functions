@@ -1,0 +1,498 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualNetwork": {
+            "type": "string",
+            "defaultValue": "vnet-1",
+            "metadata": {
+                "description": "仮想ネットワーク名 (10.1.0.0/16)"
+            }
+        },
+        "apiManagement": {
+            "type": "string",
+            "metadata": {
+                "description": "API Management (外部公開のホスト名としても使用)"
+            }
+        },
+        "publisherEmail": {
+            "type": "string",
+            "metadata": {
+                "description": "Publisher Email"
+            }
+        },
+        "publicIPAddress": {
+            "type": "string",
+            "defaultValue": "pip-apim-cloudworkshop",
+            "metadata": {
+                "description": "API Management のパブリック IP アドレス"
+            }
+        },
+        "logAnalyticsWorkspace": {
+            "type": "string",
+            "defaultValue": "log-1",
+            "metadata": {
+                "description": "Log Analytics Workspace"
+            }
+        },
+        "keyVaultName": {
+            "type": "string",
+            "metadata": {
+                "description": "Key Vault"
+            }
+        },
+        "sqlServer": {
+            "type": "string",
+            "metadata": {
+                "description": "SQL Server 名"
+            }
+        },
+        "sqlAdministratorLogin": {
+            "type": "string",
+            "defaultValue": "sqladmin",
+            "metadata": {
+                "description": "SQL サーバー管理者"
+            }
+        },
+        "sqlAdministratorPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "パスワード"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {
+        "nsgName1": "[concat('nsg-', parameters('virtualNetwork'), '-subnet-1')]",
+        "nsgName2": "[concat('nsg-', parameters('virtualNetwork'), '-subnets')]",
+        "addressPrefix": "10.1.0.0/16",
+        "subnet1": "Subnet-1",
+        "subnet1Prefix": "10.1.1.0/24",
+        "subnet2": "Subnet-2",
+        "subnet2Prefix": "10.1.2.0/24",
+        "subnet3": "Subnet-3",
+        "subnet3Prefix": "10.1.3.0/24",
+        "subnetvm": "Subnet-VM",
+        "subnetvmPrefix": "10.1.10.0/24"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('nsgName1')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "Allow-HTTP-Inbound",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', variables('nsgName1'), 'Allow-HTTP-Inbound')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "80",
+                            "sourceAddressPrefix": "Internet",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "Allow-HTTPS-Inbound",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', variables('nsgName1'), 'Allow-HTTPS-Inbound')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "443",
+                            "sourceAddressPrefix": "Internet",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 110,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "Allow-Management-Inbound",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', variables('nsgName1'), 'Allow-Management-Inbound')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3443",
+                            "sourceAddressPrefix": "ApiManagement",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 120,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "Allow-LoadBalancer-Inbound",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', variables('nsgName1'), 'Allow-LoadBalancer-Inbound')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "6390",
+                            "sourceAddressPrefix": "AzureLoadBalancer",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 130,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "Allow-SQL-Outbound",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', variables('nsgName1'), 'Allow-SQL-Outbound')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "443",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "Sql",
+                            "access": "Allow",
+                            "priority": 210,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "Allow-KeyVault-Outbound",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', variables('nsgName1'), 'Allow-KeyVault-Outbound')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "443",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "AzureKeyVault",
+                            "access": "Allow",
+                            "priority": 220,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "Allow-Storage-Outbound",
+                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', variables('nsgName1'), 'Allow-Storage-Outbound')]",
+                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "443",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "Storage",
+                            "access": "Allow",
+                            "priority": 200,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('nsgName2')]",
+            "location": "[resourceGroup().location]",
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2022-09-01",
+            "name": "[parameters('virtualNetwork')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('addressPrefix')]"
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "type": "subnets",
+                    "apiVersion": "2022-09-01",
+                    "name": "[variables('subnet1')]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName1'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetwork'))]"
+                    ],
+                    "properties": {
+                        "addressPrefix": "[variables('subnet1Prefix')]",
+                        "networkSecurityGroup": {
+                            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName1'))]"
+                        }
+                    }
+                },
+                {
+                    "type": "subnets",
+                    "apiVersion": "2022-09-01",
+                    "name": "[variables('subnet2')]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName2'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetwork'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet1'))]"
+                    ],
+                    "properties": {
+                        "addressPrefix": "[variables('subnet2Prefix')]",
+                        "networkSecurityGroup": {
+                            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName2'))]"
+                        }
+                    }
+                },
+                {
+                    "type": "subnets",
+                    "apiVersion": "2022-09-01",
+                    "name": "[variables('subnet3')]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName2'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetwork'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet1'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet2'))]"
+                    ],
+                    "properties": {
+                        "addressPrefix": "[variables('subnet3Prefix')]",
+                        "networkSecurityGroup": {
+                            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName2'))]"
+                        }
+                    }
+                },
+                {
+                    "type": "subnets",
+                    "apiVersion": "2022-09-01",
+                    "name": "[variables('subnetvm')]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName2'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetwork'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet1'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet2'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet3'))]"
+                    ],
+                    "properties": {
+                        "addressPrefix": "[variables('subnetvmPrefix')]",
+                        "networkSecurityGroup": {
+                            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName2'))]"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2022-09-01",
+            "name": "[parameters('publicIPAddress')]",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "Standard",
+                "tier": "Regional"
+            },
+            "properties": {
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Static",
+                "idleTimeoutInMinutes": 4,
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('apiManagement')]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service",
+            "apiVersion": "2023-03-01-preview",
+            "name": "[parameters('apiManagement')]",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "Developer",
+                "capacity": 1
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetwork'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet1'))]",
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddress'))]"
+            ],
+            "properties": {
+                "publisherEmail": "[parameters('publisherEmail')]",
+                "publisherName": "MCW",
+                "hostnameConfigurations": [
+                    {
+                        "type": "Proxy",
+                        "hostName": "[concat(parameters('apiManagement'), '.azure-api.net')]"
+                    }
+                ],
+                "virtualNetworkConfiguration": {
+                    "subnetResourceId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetwork'), variables('subnet1'))]"
+                },
+                "customProperties": {
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": "false",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "false",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": "false",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": "false",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": "true",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "true",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168": "true",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30": "true"
+                },
+                "virtualNetworkType": "External",
+                "disableGateway": false,
+                "netGatewayState": "Disabled",
+                "apiVersionConstraint": {},
+                "publicNetworkAccess": "Enabled",
+                "publicIpAddressId": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddress'))]",
+                "legacyPortalStatus": "Enabled",
+                "developerPortalStatus": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis",
+            "apiVersion": "2023-03-01-preview",
+            "name": "[concat(parameters('apiManagement'), '/echo-api')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagement'))]"
+            ],
+            "properties": {
+                "displayName": "Echo API",
+                "apiRevision": "1",
+                "subscriptionRequired": true,
+                "serviceUrl": "http://echoapi.cloudapp.net/api",
+                "path": "echo",
+                "protocols": [
+                    "https"
+                ],
+                "authenticationSettings": {
+                    "oAuth2AuthenticationSettings": [],
+                    "openidAuthenticationSettings": []
+                },
+                "subscriptionKeyParameterNames": {
+                    "header": "Ocp-Apim-Subscription-Key",
+                    "query": "subscription-key"
+                },
+                "isCurrent": true
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces",
+            "apiVersion": "2021-06-01",
+            "name": "[parameters('logAnalyticsWorkspace')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "sku": {
+                    "name": "PerGB2018"
+                },
+                "retentionInDays": 30
+            }
+        },
+        {
+            "type": "Microsoft.KeyVault/vaults",
+            "apiVersion": "2022-07-01",
+            "name": "[parameters('keyVaultName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "sku": {
+                    "family": "A",
+                    "name": "standard"
+                },
+                "tenantId": "[subscription().tenantId]",
+                "accessPolicies": [],
+                "enabledForDeployment": false,
+                "enabledForDiskEncryption": false,
+                "enabledForTemplateDeployment": false,
+                "enableSoftDelete": true,
+                "softDeleteRetentionInDays": 90,
+                "enableRbacAuthorization": true,
+                "provisioningState": "Succeeded",
+                "publicNetworkAccess": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2021-05-01-preview",
+            "name": "[parameters('sqlServer')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "version": "12.0",
+                "publicNetworkAccess": "Enabled",
+                "administratorLogin": "[parameters('sqlAdministratorLogin')]",
+                "administratorLoginPassword": "[parameters('sqlAdministratorPassword')]",
+                "minimalTlsVersion": "1.2"
+            },
+            "resources": [
+                {
+                    "type": "databases",
+                    "apiVersion": "2021-05-01-preview",
+                    "name": "AdventureWorksLT",
+                    "location": "[resourceGroup().location]",
+                    "sku": {
+                        "name": "GP_S_Gen5_1",
+                        "tier": "GeneralPurpose"
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', parameters('sqlServer'))]"
+                    ],
+                    "properties": {
+                        "collation": "SQL_Latin1_General_CP1_CI_AS",
+                        "edition": "Basic",
+                        "maxSizeBytes": 5368709120,
+                        "minCapacity": 0.5,
+                        "sampleName": "AdventureWorksLT",
+                        "requestedBackupStorageRedundancy": "Local"
+                    }
+                },
+                {
+                    "type": "firewallRules",
+                    "apiVersion": "2021-11-01",
+                    "name": "AllowAllWindowsAzureIps",
+                    "location": "[resourceGroup().location]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', parameters('sqlServer'))]"
+                    ],
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "0.0.0.0"
+                    }
+                },
+                {
+                    "type": "connectionPolicies",
+                    "apiVersion": "2021-11-01",
+                    "name": "Default",
+                    "location": "[resourceGroup().location]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', parameters('sqlServer'))]"
+                    ],
+                    "properties": {
+                        "connectionType": "Default"
+                    }
+                }
+            ]
+        }
+    ],
+    "outputs": {}
+}

@@ -7,6 +7,18 @@ Nov. 2023
 
 ### Contents
 
+- [環境準備](#環境準備)
+
+- [Exercise 1: 関数アプリの展開](#exercise-1-関数アプリの展開)
+
+- [Exercise 2: 関数アプリの保護](#exercise-2-関数アプリの保護)
+
+- [Exercise 3: Key Vault 参照の利用](#exercise-3-key-vault-参照の利用)
+
+- [Exercise 4: API Management による API の公開](#exercise-4-api-management-による-api-の公開)
+
+- [Exercise 5: API のバージョン管理](#exercise-5-api-のバージョン管理)
+
 <br />
 
 ## 環境準備
@@ -843,6 +855,28 @@ Nov. 2023
 
 <br />
 
+### Task 7: 関数アプリの実行
+
+- **概要** を選択、関数に表示される **GetProduct** をクリック
+
+  <img src="images/function-url-01.png" />
+
+- **関数 URL の取得** をクリック、表示される URL をコピー
+
+  <img src="images/function-url-02.png" />
+
+- Web ブラウザーを起動し、アドレス バーに関数アプリの展開時に出力された URL を貼り付け
+
+- ?id=xx (xx は数字、5, 7, 10, 22, 27, 35 のいずれかを指定) を付与して実行
+
+  <img src="images/function-result-01.png" />
+
+  ※ インターネットを介したアクセスが拒否されることを確認
+
+  <img src="images/function-result-02.png" />
+
+<br />
+
 ## Exercise 3: Key Vault 参照の利用
 
 ### Task 1: マネージド ID の有効化
@@ -1043,4 +1077,213 @@ Nov. 2023
 
 <br />
 
-## Exercise 4: API Management
+## Exercise 4: API Management による API の公開
+
+### Task 1: 関数アプリのインポート
+
+- Azure ポータルで API Management の管理ブレードを表示
+
+- **API** を選択、**＋ Add API** ‐ **Function App** をクリック
+
+  <img src="images/add-api-01.png" />
+
+- **Browse** をクリック
+
+  <img src="images/add-api-02.png" />
+
+- Azure Functions のインポートの必要な設定の構成で **選択** をクリック
+
+  <img src="images/add-api-03.png" />
+
+- Azure 関数アプリを選択画面でインポートする関数アプリを選択し、**選択** をクリック
+
+  <img src="images/add-api-04.png" />
+
+- **選択** をクリックし、関数アプリをインポート
+
+  <img src="images/add-api-05.png" />
+
+- Create fron Function App 画面を **Full** に変更
+
+- **API URL suffix** を **api** に変更、**Products** に **Unlimited** を追加し、**Create** をクリック
+
+  <img src="images/add-api-06.png" />
+
+- API が追加されたことを確認
+
+  <img src="images/add-api-07.png" />
+
+- **Test** タブを選択
+
+- **GetProduct** を選択、**Query parameters** の **Add parameter** をクリック
+
+  - **NAME**: id
+
+  - **VAULE**: 5, 7, 10, 22, 27, 35 のいずれかを指定
+
+- **Send** をクリックし、テストを実行
+
+  <img src="images/api-test-01.png" />
+
+- 関数アプリが実行され、応答が返ってくることを確認
+
+  <img src="images/api-test-03.png" />
+
+<br />
+
+### Task 2: 製品の作成と発行
+
+- API Management の管理ブレードへ移動、**製品** を選択
+
+- **＋ 追加** をクリック
+
+  <img src="images/new-product-01.png" />
+
+- 製品の追加
+
+  - **表示名**: Cloud Workshop (任意)
+
+  - **ID**: cloud-workshop (任意、表示名から自動生成)
+
+  - **説明**: Subscribes will be able to run 1 call/minutes up to a maximum of 100 calls/week.
+
+  - **発行済み**: オン
+
+  - **サブスクリプションを要求する**: オフ
+
+    <img src="images/new-product-02.png" />
+  
+- **作成** をクリックして、製品を作成
+
+<br />
+
+### Task 3: 製品の構成
+
+- 作成した製品をクリック
+
+  <img src="images/new-product-03.png" />
+
+- **API** を選択し、**＋ 追加** をクリック
+
+  <img src="images/new-product-04.png" />
+
+- API 画面で追加する API にチェックを付け、**選択** をクリック
+
+  <img src="images/new-product-05.png" />
+
+- 選択した API が追加
+
+  <img src="images/new-product-06.png" />
+
+- **ポリシー** を選択、**Inbound processing** の **</>** をクリック
+
+  <img src="images/new-product-07.png" />
+
+- **Inbound** にレート制限とクォータのポリシーを追加
+
+  ```
+          <rate-limit calls="1" renewal-period="60" />
+          <quota calls="100" renewal-period="604800" />
+  ```
+
+- **Save** をクリックし、変更を保存
+
+  <img src="images/new-product-08.png" />
+
+- **アクセス制御** を選択、**＋ グループの追加** をクリック
+
+  <img src="images/new-product-09.png" />
+
+- グループ画面で **Guests** にチェックを付け、**選択** をクリック
+
+  <img src="images/new-product-10.png" />
+
+- Guests が追加
+
+  <img src="images/new-product-11.png" />
+
+<br />
+
+### Task 4: 関数アプリの実行
+
+- **概要** を選択、関数に表示される **ゲートウェイの URL** をコピー
+
+  <img src="images/api-test-04.png" />
+
+- Web ブラウザーを起動し、アドレス バーに関数アプリの展開時に出力された URL を貼り付け
+
+- /api/GetProduct?id=xx (xx は数字、5, 7, 10, 22, 27, 35 のいずれかを指定) を付与して実行
+
+  <img src="images/function-result-01.png" />
+
+- 続けて実行すると、レート制限が適用され、状態コード 429 で応答
+
+  <img src="images/function-result-05.png" />
+
+- **サブスクリプション** を選択、スコープが **製品: Unlimited** の **・・・** をクリックし、**キーの表示/非表示** を選択
+
+  <img src="images/get-subscription-key-01.png" />
+
+- 主キーをコピー
+
+  <img src="images/get-subscription-key-02.png" />
+
+  ※ 後の手順で使用するため、メモ帳などのテキスト エディターに貼り付け
+
+- Windows PowerShell を起動
+
+  ```
+  curl.exe -i -X GET {ゲートウェイ URL}/api/GetProduct?id=35 -H "Ocp-Apim-Subscription-Key: {サブスクリプション キー}"
+  ```
+
+  ※ {ゲートウェイ URL} を API Management のゲートウェイ URL に変更
+
+  ※ {サブスクリプション キー} をコピーしたサブスクリプション キーに変更
+
+- レート制限のポリシーが適用されず、連続で実行されることを確認
+
+  <img src="images/function-result-03.png" />
+
+<br />
+
+### Task 5: API Management の診断設定
+
+- Azure ポータルで API Management の管理ブレードへ移動
+
+- **診断設定** を選択、**＋ 診断設定を追加する** をクリック
+
+  <img src="images/apim-diag-01.png" />
+
+- 診断設定
+
+  - **診断設定の名前**: 任意
+
+  - **ログ**
+
+    - **カテゴリ グループ**
+
+      - **audit**: オン
+
+      - **allLogs**: オン
+  
+  - **メトリック**
+
+    - **AllMetrics**: オン
+
+  - **宛先の詳細**
+
+    - **Log Analytics ワークスペースへの送信**: オン
+
+      - **サブスクリプション**: ワークショップで使用中のサブスクリプション
+
+      - **Log Analytics ワークスペース**: 事前展開済みの Log Analytics ワークスペース
+
+      - **ターゲット テーブル**: リソース固有
+
+    <img src="images/apim-diag-02.png" />
+
+- **保存** をクリックして、診断設定を有効化
+
+<br />
+
+## Exercise 5: API のバージョン管理

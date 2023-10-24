@@ -943,15 +943,7 @@ Nov. 2023
 
 - **作成** をクリックし、シークレットを作成
 
-- 同様の手順でストレージ アカウントへの接続文字列を含むシークレットを生成
-
-  - **名前**: StorageAccountConnectionString
-
-  - **シークレット値**: ストレージ アカウントへの接続文字列
-
-    <img src="images/new-secret-03.png" />
-
-- ２つのシークレットが正常に作成されたことを確認
+- シークレットが正常に作成されたことを確認
 
   <img src="images/new-secret-04.png" />
 
@@ -1058,14 +1050,6 @@ Nov. 2023
   ※ {Key Vault 名} をシークレットを登録した Key Vault の名前に変更
 
   <img src="images/function-configuration-key-vault.png" />
-
-- 同様に **AzureWebJobsStorage**, **WEBSITE_CONTENTAZUREFILECONNECTIONSTRING** を Key Vault 参照へ変更
-
-  ```
-  @Microsoft.KeyVault(VaultName={Key Vault 名};SecretName=StorageAccountConnectionString)
-  ```
-
-  ※ {Key Vault 名} をシークレットを登録した Key Vault の名前に変更
 
 - **保存** をクリックし、変更を適用
 
@@ -1284,6 +1268,95 @@ Nov. 2023
 
 - **保存** をクリックして、診断設定を有効化
 
+- **API** を選択
+
+- 診断設定を行う API を選択し、**Settings** タブを選択し **Azure Monitor** を選択
+
+  <img src="images/apim-diag-03.png" />
+
+- Diagnostics Logs
+
+  - **Override global**: オン
+
+  - **Sampling (%)**: 100
+
+  - **Always log errors**: オン
+
+  - **Log client IP address**: オン
+
+  - **Verbosity**: Information
+
+  - **Additional settings**
+
+    - **Number of payload bytes**: 8192
+
+    <img src="images/apim-diag-04.png" />
+
+- **Save** をクリックし、設定を保存
+
 <br />
 
 ## Exercise 5: API のバージョン管理
+
+### Task 1: 新しいバージョンの追加と構成
+
+- Azure ポータルで API Management の管理ブレードへ移動、**API** を選択
+
+- API 名の右に表示される **・・・** を右クリックし、**Add version** をクリック
+
+  <img src="images/add-version-01.png" />
+
+- Create a new API as a version
+
+  - **Version identifier**: v2
+
+  - **Versioning scheme**: Path
+
+  - **Full API version name**: 関数アプリ名-v2
+
+  - **Products**: Cloud Workshop, Unlimited
+
+    <img src="images/add-version-02.png" />
+  
+- **Create** をクリックし、バージョンを追加
+
+- 追加したバージョン (v2) の関数名 (GetProduct) を選択、Outbound processing の **</>** をクリック
+
+  <img src="images/add-version-03.png" />
+
+- **outbound** に JSON から XML へ変換を行うポリシーを追加
+
+  ```
+          <json-to-xml apply="always" consider-accept-header="false" />
+  ```
+
+- **Save** をクリックして変更を保存
+
+  <img src="images/add-version-04.png" />
+
+<br />
+
+### Task 2: 関数アプリの実行
+
+- **概要** を選択、関数に表示される **ゲートウェイの URL** をコピー
+
+  <img src="images/api-test-04.png" />
+
+- Web ブラウザーを起動し、アドレス バーに関数アプリの展開時に出力された URL を貼り付け
+
+- /api/GetProduct?id=xx (xx は数字、5, 7, 10, 22, 27, 35 のいずれかを指定) を付与して実行
+
+  <img src="images/function-result-01.png" />
+
+  ※ JSON 形式でデータが返されることを確認
+
+- {ゲートウェイの URL}/api/v2/GetProduct?id=xx (xx は数字、5, 7, 10, 22, 27, 35 のいずれかを指定) を実行
+
+  <img src="images/function-result-08.png" />
+
+  ※ XML 形式でデータが返されることを確認
+
+  ※ レート制限が適用されているため１分以上間隔をあけて実行
+
+<br />
+

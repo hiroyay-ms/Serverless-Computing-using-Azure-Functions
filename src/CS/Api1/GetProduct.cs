@@ -21,7 +21,7 @@ namespace Api1
         }
 
         [Function("GetProduct")]
-        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
+        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
@@ -55,17 +55,20 @@ namespace Api1
                         {
                             while (reader.Read())
                             {
-                                products.Add(
-                                    new Product
-                                    {
-                                        ProductId = reader.GetInt32(0),
-                                        CategoryName = reader.GetString(1),
-                                        ProductName = reader.GetString(2),
-                                        Color = reader.GetString(3),
-                                        StandardCost = reader.GetDecimal(4),
-                                        SellStartDate = reader.GetDateTime(5)
-                                    }
-                                );
+                                var p = new Product();
+                                p.ProductId = reader.GetInt32(0);
+                                p.CategoryName = reader.GetString(1);
+                                p.ProductName = reader.GetString(2);
+
+                                if (!reader.IsDBNull(3))
+                                    p.Color = reader.GetString(3);
+                                else
+                                    p.Color = "(NULL)";
+                                
+                                p.StandardCost = reader.GetDecimal(4);
+                                p.SellStartDate = reader.GetDateTime(5);
+
+                                products.Add(p);
                             }
                         }
                     }

@@ -9,7 +9,7 @@ Nov. 2023
 
 - [環境準備](#環境準備)
 
-- [Exercise 1: 関数アプリの展開](#exercise-1-関数アプリの展開)
+- [Exercise 1: 関数アプリの作成と展開](#exercise-1-関数アプリの作成と展開)
 
 - [Exercise 2: 関数アプリの保護](#exercise-2-関数アプリの保護)
 
@@ -135,7 +135,7 @@ Nov. 2023
 
     <br />
 
-## Exercise 1: 関数アプリの展開
+## Exercise 1: 関数アプリの作成と展開
 
 ### Task 1: 関数アプリの作成
 
@@ -1360,3 +1360,22 @@ Nov. 2023
 
 <br />
 
+### Task 3: ログの確認
+
+- API Management の管理ブレードで **ログ** を選択
+
+- クエリを記述し **実行** をクリック
+
+  ```
+  ApiManagementGatewayLogs 
+  | where TimeGenerated > ago(1h) 
+  | sort by TimeGenerated asc
+  ```
+
+  <img src="images/log-01.png" />
+
+- ログを確認
+
+  <img src="images/log-02.png" />
+
+  ※ API を呼び出してからログに反映されるまで 2, 3 分かかります

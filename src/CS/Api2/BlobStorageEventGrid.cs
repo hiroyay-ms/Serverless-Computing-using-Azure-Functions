@@ -23,22 +23,26 @@ namespace Api2
 
         [Function(nameof(BlobStorageEventGrid))]
         [SqlOutput("[dbo].[WorkItem]", connectionStringSetting: "SqlConnectionString")]
-        public void Run([EventGridTrigger] EventGridEvent eventGridEvent)
+        public object Run([EventGridTrigger] EventGridEvent eventGridEvent)
         {
             _logger.LogInformation($"Event type: {eventGridEvent.EventType}, Event subject: {eventGridEvent.Subject}");
 
             var data = JsonNode.Parse(eventGridEvent.Data);
 
-            WorkItem item = new WorkItem()
+            if ((int)data["contentLength"] > 0)
             {
-                Id = Guid.NewGuid(),
-                ContentName = data["blobUrl"].ToString().Substring(data["blobUrl"].ToString().LastIndexOf('/') + 1),
-                ContentType = data["contentType"].ToString(),
-                ContentLength = (int)data["contentLength"],
-                BlobUrl = data["blobUrl"].ToString()
-            };
+                WorkItem item = new WorkItem()
+                {
+                    Id = Guid.NewGuid(),
+                    ContentName = data["blobUrl"].ToString().Substring(data["blobUrl"].ToString().LastIndexOf('/') + 1),
+                    ContentLength = (int)data["contentLength"],
+                    BlobUrl = data["blobUrl"].ToString()
+                };
 
-            return item;
+                return item;
+            }
+
+            return null;
         }
     }
 }

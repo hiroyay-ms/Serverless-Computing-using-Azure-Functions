@@ -115,6 +115,20 @@
             "metadata": {
                 "description": "パスワード"
             }
+        },
+        "usesPython": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Python"
+            }
+        },
+        "cosmosDBAccount": {
+            "type": "string",
+            "defaultValue": "---",
+            "metadata": {
+                "description": "Cosmos DB アカウント"
+            }
         }
     },
     "functions": [],
@@ -540,6 +554,59 @@
                     }
                 }
             ]
+        },
+        {
+            "condition": "[parameters('usesPython')]",
+            "type": "Microsoft.DocumentDB/databaseAccounts",
+            "apiVersion": "2023-04-15",
+            "name": "[parameters('cosmosDBAccount')]",
+            "location": "[resourceGroup().location]",
+            "kind": "GlobalDocumentDB",
+            "properties": {
+                "publicNetworkAccess": "Enabled",
+                "databaseAccountOfferType": "Standard",
+                "locations": [
+                    {
+                        "locationName": "[resourceGroup().location]",
+                        "failoverPriority": 0
+                    }
+                ]
+            }
+        },
+        {
+            "condition": "[parameters('usesPython')]",
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+            "apiVersion": "2023-04-15",
+            "name": "[concat(parameters('cosmosDBAccount'), '/items')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDBAccount'))]"
+            ],
+            "properties": {
+                "resource": {
+                    "id": "items"
+                }
+            }
+        },
+        {
+            "condition": "[parameters('usesPython')]",
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+            "apiVersion": "2023-04-15",
+            "name": "[concat(parameters('cosmosDBAccount'), '/items/events')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('cosmosDBAccount'), 'items')]",
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosDBAccount'))]"
+            ],
+            "properties": {
+                "resource": {
+                    "id": "events",
+                    "partitionKey": {
+                        "paths": [
+                            "/id"
+                        ],
+                        "kind": "Hash"
+                    }
+                }
+            }
         }
     ],
     "outputs": {}

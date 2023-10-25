@@ -7,6 +7,14 @@ Nov. 2023
 
 ### Contents
 
+- [Exercise 6: SFTP サポートを有効にしたストレージ アカウントの作成](#exercise-6-sftp-サポートを有効にしたストレージ-アカウントの作成)
+
+- [Exercise 7: 関数アプリの作成と展開](#exercise-7-関数アプリの作成と展開)
+
+- [Exercise 8: SQL Database のテーブル作成とファイアウォール設定](#exercise-8-sql-database-のテーブル作成とファイアウォール設定)
+
+- [Exercise 9: イベント サブスクリプションの作成](#exercise-9-イベント-サブスクリプションの作成)
+
 <br />
 
 ## Exercise 6: SFTP サポートを有効にしたストレージ アカウントの作成

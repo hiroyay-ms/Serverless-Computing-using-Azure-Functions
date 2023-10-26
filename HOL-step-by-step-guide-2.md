@@ -1,6 +1,6 @@
 ![Microsoft Cloud Workshop](images/ms-cloud-workshop.png)
 
-Serverless Computing using Azure Functions   
+Serverless Computing using Azure Functions  
 Nov. 2023
 
 <br />
@@ -100,7 +100,6 @@ Nov. 2023
     - **匿名アクセス レベル**: プライベート (匿名アクセスはありません)
 
       <img src="images/blob-sftp-03.png" />
-    
 
   - **コンテナーのアクセス許可**
 
@@ -139,65 +138,65 @@ Nov. 2023
   <details>
     <summary>C#</summary>
 
-    - **基本**
+  - **基本**
 
-      - **プロジェクトの詳細**
+    - **プロジェクトの詳細**
 
-        - **サブスクリプション**: ワークショップで使用するサブスクリプション
+      - **サブスクリプション**: ワークショップで使用するサブスクリプション
 
-        - **リソース グループ**: ワークショップで使用するリソース グループ
+      - **リソース グループ**: ワークショップで使用するリソース グループ
 
-      - **インスタンスの詳細**
+    - **インスタンスの詳細**
 
-        - **関数アプリ名**: 任意の名前 (2 ～ 60 文字、英数字、およびハイフンのみ)
+      - **関数アプリ名**: 任意の名前 (2 ～ 60 文字、英数字、およびハイフンのみ)
 
-        - **コードまたはコンテナー**: コード
+      - **コードまたはコンテナー**: コード
 
-        - **ランタイム スタック**: .NET
+      - **ランタイム スタック**: .NET
 
-        - **バージョン**: 7 (STS) Isolated
+      - **バージョン**: 7 (STS) Isolated
 
-        - **地域**: リソース グループと同じ地域を選択
+      - **地域**: リソース グループと同じ地域を選択
 
-      - **オペレーティング システム**
+    - **オペレーティング システム**
 
-        - **オペレーティング システム**: Windows
+      - **オペレーティング システム**: Windows
 
-      - **ホスティング**
+    - **ホスティング**
 
-        - **ホスティング オプションとプラン**: 消費量 (サーバーレス)
+      - **ホスティング オプションとプラン**: 消費量 (サーバーレス)
 
-        <img src="images/create-azure-functions-08.png" />
+      <img src="images/create-azure-functions-08.png" />
 
-    - **Storage**
+  - **Storage**
 
-      - **ストレージ アカウント**: (新規)xxx (名前を変更する場合は新規作成をクリックして入力、英子文字、数字で 3 ～ 24 文字)
+    - **ストレージ アカウント**: (新規)xxx (名前を変更する場合は新規作成をクリックして入力、英子文字、数字で 3 ～ 24 文字)
 
-        <img src="images/create-azure-functions-09.png" />
-    
-    - **ネットワーク**
+      <img src="images/create-azure-functions-09.png" />
 
-      - **パブリック アクセスを有効にする**: オン
+  - **ネットワーク**
 
-      - **ネットワーク インジェクションを有効にする**: オフ
+    - **パブリック アクセスを有効にする**: オン
 
-        <img src="images/create-azure-functions-10.png" />
+    - **ネットワーク インジェクションを有効にする**: オフ
 
-    - **監視**
+      <img src="images/create-azure-functions-10.png" />
 
-      - **Application Insights を有効にする**: いいえ
+  - **監視**
 
-        <img src="images/create-azure-functions-11.png" />
+    - **Application Insights を有効にする**: いいえ
 
-    - **デプロイ**
+      <img src="images/create-azure-functions-11.png" />
 
-      - **継続的デプロイ**: 無効化
+  - **デプロイ**
 
-        <img src="images/create-azure-functions-12.png" />
-    
-    - **確認および作成** をクリック、表示される内容を確認し **作成** をクリック
+    - **継続的デプロイ**: 無効化
 
-      <img src="images/create-azure-functions-13.png" />
+      <img src="images/create-azure-functions-12.png" />
+
+  - **確認および作成** をクリック、表示される内容を確認し **作成** をクリック
+
+    <img src="images/create-azure-functions-13.png" />
 
   </details>
 
@@ -206,65 +205,65 @@ Nov. 2023
   <details>
     <summary>Python</summary>
 
-    - **基本**
+  - **基本**
 
-      - **プロジェクトの詳細**
+    - **プロジェクトの詳細**
 
-        - **サブスクリプション**: ワークショップで使用するサブスクリプション
+      - **サブスクリプション**: ワークショップで使用するサブスクリプション
 
-        - **リソース グループ**: ワークショップで使用するリソース グループ
+      - **リソース グループ**: ワークショップで使用するリソース グループ
 
-      - **インスタンスの詳細**
+    - **インスタンスの詳細**
 
-        - **関数アプリ名**: 任意の名前 (2 ～ 60 文字、英数字、およびハイフンのみ)
+      - **関数アプリ名**: 任意の名前 (2 ～ 60 文字、英数字、およびハイフンのみ)
 
-        - **コードまたはコンテナー**: コード
+      - **コードまたはコンテナー**: コード
 
-        - **ランタイム スタック**: Python
+      - **ランタイム スタック**: Python
 
-        - **バージョン**: 3.10
+      - **バージョン**: 3.10
 
-        - **地域**: リソース グループと同じ地域を選択
+      - **地域**: リソース グループと同じ地域を選択
 
-      - **オペレーティング システム**
+    - **オペレーティング システム**
 
-        - **オペレーティング システム**: Linux
+      - **オペレーティング システム**: Linux
 
-      - **ホスティング**
+    - **ホスティング**
 
-        - **ホスティング オプションとプラン**: 消費量 (サーバーレス)
+      - **ホスティング オプションとプラン**: 消費量 (サーバーレス)
 
-        <img src="images/create-azure-functions-08.png" />
+      <img src="images/create-azure-functions-python-08.png" />
 
-    - **Storage**
+  - **Storage**
 
-      - **ストレージ アカウント**: (新規)xxx (名前を変更する場合は新規作成をクリックして入力、英子文字、数字で 3 ～ 24 文字)
+    - **ストレージ アカウント**: (新規)xxx (名前を変更する場合は新規作成をクリックして入力、英子文字、数字で 3 ～ 24 文字)
 
-        <img src="images/create-azure-functions-09.png" />
-    
-    - **ネットワーク**
+      <img src="images/create-azure-functions-09.png" />
 
-      - **パブリック アクセスを有効にする**: オン
+  - **ネットワーク**
 
-      - **ネットワーク インジェクションを有効にする**: オフ
+    - **パブリック アクセスを有効にする**: オン
 
-        <img src="images/create-azure-functions-10.png" />
+    - **ネットワーク インジェクションを有効にする**: オフ
 
-    - **監視**
+      <img src="images/create-azure-functions-10.png" />
 
-      - **Application Insights を有効にする**: いいえ
+  - **監視**
 
-        <img src="images/create-azure-functions-11.png" />
+    - **Application Insights を有効にする**: いいえ
 
-    - **デプロイ**
+      <img src="images/create-azure-functions-11.png" />
 
-      - **継続的デプロイ**: 無効化
+  - **デプロイ**
 
-        <img src="images/create-azure-functions-12.png" />
-    
-    - **確認および作成** をクリック、表示される内容を確認し **作成** をクリック
+    - **継続的デプロイ**: 無効化
 
-      <img src="images/create-azure-functions-13.png" />
+      <img src="images/create-azure-functions-12.png" />
+
+  - **確認および作成** をクリック、表示される内容を確認し **作成** をクリック
+
+    <img src="images/create-azure-functions-13.png" />
 
   </details>
 
@@ -279,9 +278,9 @@ Nov. 2023
   <details>
     <summary>C#</summary>
 
-    ```
-    cd src/CS/Api2
-    ```
+  ```
+  cd src/CS/Api2
+  ```
 
   </details>
 
@@ -290,9 +289,9 @@ Nov. 2023
   <details>
     <summary>Python</summary>
 
-    ```
-    cd src/Python/Api2
-    ```
+  ```
+  cd src/Python/Api2
+  ```
 
   </details>
 
@@ -398,7 +397,7 @@ Nov. 2023
       - **ソース リソース**: ストレージ アカウント名
 
       - **システム トピック名**: 任意 (3 ～ 128 文字、英数字、ハイフンのみ)
-    
+
     - **イベントの種類**
 
       - **イベントの種類のフィルター**: Blob Created
@@ -450,19 +449,19 @@ Nov. 2023
 <details>
   <summary>C#</summary>
 
-  - SQL Database (AdventureWorksLT) の管理ブレードを表示
+- SQL Database (AdventureWorksLT) の管理ブレードを表示
 
-  - **クエリ エディター (プレビュー)** を選択
+- **クエリ エディター (プレビュー)** を選択
 
-  - クエリを記述し **実行** をクリック
+- クエリを記述し **実行** をクリック
 
-    ```
-    select * from [dbo].[WorkItem]
-    ```
+  ```
+  select * from [dbo].[WorkItem]
+  ```
 
-  - SFTP で転送されたファイルの情報が登録されていることを確認
+- SFTP で転送されたファイルの情報が登録されていることを確認
 
-    <img src="images/sftp-client-02.png" />
+  <img src="images/sftp-client-02.png" />
 
 </details>
 
@@ -470,15 +469,12 @@ Nov. 2023
 
 <details>
   <summary>Python</symmary>
-
-  - Cosmos DBの管理ブレードを表示
-
+  
+  - Cosmos DB の管理ブレードを表示
   - **データエクスプローラー** を選択
-
   - **items** > **events** > **Items** を選択
-
   - SFTP で転送されたファイルの情報が登録されていることを確認
 
-    <img src="images/sftp-client-02.png" />
+  <img src="images/sftp-client-python-02.png" />
 
 </details>

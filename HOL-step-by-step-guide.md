@@ -334,7 +334,7 @@ Nov. 2023
     ```
     cd src/Python/Api1
     ```
-    
+
   </details>
 
   <br />
@@ -374,6 +374,8 @@ Nov. 2023
   - **名前**: SqlConnectionString
 
   - **値**: SQL Database への接続文字列
+
+    - **注意** : Pythonの場合、接続文字列の冒頭 **Driver={ODBC Driver 18 for SQL Server}** を **Driver={ODBC Driver 17 for SQL Server}** に変更してください。
 
     <img src="images/function-configuration-02.png" />
 

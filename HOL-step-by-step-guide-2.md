@@ -205,6 +205,67 @@ Nov. 2023
 
   <details>
     <summary>Python</summary>
+
+    - **基本**
+
+      - **プロジェクトの詳細**
+
+        - **サブスクリプション**: ワークショップで使用するサブスクリプション
+
+        - **リソース グループ**: ワークショップで使用するリソース グループ
+
+      - **インスタンスの詳細**
+
+        - **関数アプリ名**: 任意の名前 (2 ～ 60 文字、英数字、およびハイフンのみ)
+
+        - **コードまたはコンテナー**: コード
+
+        - **ランタイム スタック**: Python
+
+        - **バージョン**: 3.10
+
+        - **地域**: リソース グループと同じ地域を選択
+
+      - **オペレーティング システム**
+
+        - **オペレーティング システム**: Linux
+
+      - **ホスティング**
+
+        - **ホスティング オプションとプラン**: 消費量 (サーバーレス)
+
+        <img src="images/create-azure-functions-08.png" />
+
+    - **Storage**
+
+      - **ストレージ アカウント**: (新規)xxx (名前を変更する場合は新規作成をクリックして入力、英子文字、数字で 3 ～ 24 文字)
+
+        <img src="images/create-azure-functions-09.png" />
+    
+    - **ネットワーク**
+
+      - **パブリック アクセスを有効にする**: オン
+
+      - **ネットワーク インジェクションを有効にする**: オフ
+
+        <img src="images/create-azure-functions-10.png" />
+
+    - **監視**
+
+      - **Application Insights を有効にする**: いいえ
+
+        <img src="images/create-azure-functions-11.png" />
+
+    - **デプロイ**
+
+      - **継続的デプロイ**: 無効化
+
+        <img src="images/create-azure-functions-12.png" />
+    
+    - **確認および作成** をクリック、表示される内容を確認し **作成** をクリック
+
+      <img src="images/create-azure-functions-13.png" />
+
   </details>
 
 <br />
@@ -228,6 +289,11 @@ Nov. 2023
 
   <details>
     <summary>Python</summary>
+
+    ```
+    cd src/Python/Api2
+    ```
+
   </details>
 
   <br />
@@ -404,4 +470,15 @@ Nov. 2023
 
 <details>
   <summary>Python</symmary>
+
+  - Cosmos DBの管理ブレードを表示
+
+  - **データエクスプローラー** を選択
+
+  - **items** > **events** > **Items** を選択
+
+  - SFTP で転送されたファイルの情報が登録されていることを確認
+
+    <img src="images/sftp-client-02.png" />
+
 </details>

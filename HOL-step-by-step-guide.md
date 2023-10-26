@@ -226,6 +226,75 @@ Nov. 2023
 
   <details>
     <summary>Python</summary>
+
+    - **基本**
+
+      - **プロジェクトの詳細**
+
+        - **サブスクリプション**: ワークショップで使用するサブスクリプション
+
+        - **リソース グループ**: ワークショップで使用するリソース グループ
+
+      - **インスタンスの詳細**
+
+        - **関数アプリ名**: 任意の名前 (2 ～ 60 文字、英数字、およびハイフンのみ)
+
+        - **コードまたはコンテナー**: コード
+
+        - **ランタイム スタック**: Python
+
+        - **バージョン**: 3.10
+
+        - **地域**: リソース グループと同じ地域を選択
+
+      - **オペレーティング システム**
+
+        - **オペレーティング システム**: Linux
+
+      - **ホスティング**
+
+        - **ホスティング オプションとプラン**: Functions Premium
+
+        - **Windows プラン**: 任意 (既定の名前を変更する場合は新規作成をクリックして入力)
+
+        - **価格プラン**: エラスティック Premium EP1 (ACU 合計 210, 3.5 GB メモリ, 1 vCPU)
+    
+      - **ゾーン冗長**
+
+        - **ゾーン冗長**: 無効
+
+      <img src="images/create-azure-functions-02.png" />
+
+    - **Storage**
+
+      - **ストレージ アカウント**: (新規)xxx (名前を変更する場合は新規作成をクリックして入力、英子文字、数字で 3 ～ 24 文字)
+
+        <img src="images/create-azure-functions-03.png" />
+    
+    - **ネットワーク**
+
+      - **パブリック アクセスを有効にする**: オン
+
+      - **ネットワーク インジェクションを有効にする**: オフ
+
+        <img src="images/create-azure-functions-04.png" />
+
+    - **監視**
+
+      - **Application Insights を有効にする**: いいえ
+
+        <img src="images/create-azure-functions-05.png" />
+
+    - **デプロイ**
+
+      - **継続的デプロイ**: 無効化
+
+        <img src="images/create-azure-functions-06.png" />
+    
+    - **確認および作成** をクリック、表示される内容を確認し **作成** をクリック
+
+      <img src="images/create-azure-functions-07.png" />
+
   </details>
 
 <br />
@@ -261,6 +330,11 @@ Nov. 2023
 
   <details>
     <summary>Python</summary>
+
+    ```
+    cd src/Python/Api1
+    ```
+
   </details>
 
   <br />
@@ -300,6 +374,8 @@ Nov. 2023
   - **名前**: SqlConnectionString
 
   - **値**: SQL Database への接続文字列
+
+    - **注意** : Pythonの場合、接続文字列の冒頭 **Driver={ODBC Driver 18 for SQL Server}** を **Driver={ODBC Driver 17 for SQL Server}** に変更してください。
 
     <img src="images/function-configuration-02.png" />
 

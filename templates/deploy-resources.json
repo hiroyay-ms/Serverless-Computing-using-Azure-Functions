@@ -607,6 +607,36 @@
                     }
                 }
             }
+        },
+        {
+            "type": "Microsoft.Insights/diagnosticSettings",
+            "apiVersion": "2021-05-01-preview",
+            "scope": "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagement'))]",
+            "name": "[concat('diag-', parameters('apiManagement'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagement'))]",
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspace'))]"
+            ],
+            "properties": {
+                "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('logAnalyticsWorkspace'))]",
+                "logAnalyticsDestinationType": "Dedicated",
+                "logs": [
+                    {
+                        "categoryGroup": "audit",
+                        "enabled": true
+                    },
+                    {
+                        "categoryGroup": "allLogs",
+                        "enabled": true
+                    }
+                ],
+                "metrics": [
+                    {
+                        "category": "AllMetrics",
+                        "enabled": true
+                    }
+                ]
+            }
         }
     ],
     "outputs": {}

@@ -21,21 +21,15 @@ Nov. 2023
 
 <br />
 
-## 環境準備
+### 事前準備環境
 
-### SQL Server の設定
-
-- [Azure ポータル](#https://portal.azure.com)へアクセス
-
-- 事前展開済みの SQL Server の管理ブレードへ移動し、**ネットワーク** を選択
-
-- **ファイアウォール規則** の **＋クライアント IPv4 アドレス (xxx.xxx.xxx.xxx) の追加** をクリック
-
-  <img src="images/sql-firewall-add-client-ip.png" />
-
-- **保存** をクリック
+<img src="images/mcw-preparation.png" />
 
 <br />
+
+## 環境準備
+
+<img src="images/mcw-exercise-0.png" />
 
 ### 仮想マシンへの接続
 
@@ -136,6 +130,8 @@ Nov. 2023
     <br />
 
 ## Exercise 1: 関数アプリの作成と展開
+
+<img src="images/mcw-exercise-1.png" />
 
 ### Task 1: 関数アプリの作成
 
@@ -400,6 +396,8 @@ Nov. 2023
 <br />
 
 ## Exercise 2: 関数アプリの保護
+
+<img src="images/mcw-exercise-2.png" />
 
 ### Task 1: SQL Database のネットワーク構成
 
@@ -955,6 +953,8 @@ Nov. 2023
 
 ## Exercise 3: Key Vault 参照の利用
 
+<img src="images/mcw-exercise-3.png" />
+
 ### Task 1: マネージド ID の有効化
 
 - Azure Functions の管理ブレードで、**ID** を選択
@@ -1138,6 +1138,8 @@ Nov. 2023
 <br />
 
 ## Exercise 4: API Management による API の公開
+
+<img src="images/mcw-exercise-4.png" />
 
 ### Task 1: 関数アプリのインポート
 
@@ -1373,6 +1375,8 @@ Nov. 2023
 <br />
 
 ## Exercise 5: API のバージョン管理
+
+<img src="images/mcw-exercise-5.png" />
 
 ### Task 1: 新しいバージョンの追加と構成
 

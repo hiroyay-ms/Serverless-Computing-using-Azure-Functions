@@ -17,6 +17,8 @@ Nov. 2023
 
 <br />
 
+<img src="images/mcw-exercise-6-9.png" />
+
 ## Exercise 6: SFTP サポートを有効にしたストレージ アカウントの作成
 
 ### Task 1: ストレージ アカウントの作成

@@ -1,6 +1,6 @@
 ![Microsoft Cloud Workshop](images/ms-cloud-workshop.png)
 
-Serverless Computing using Azure Functions   
+Serverless Computing using Azure Functions  
 Nov. 2023
 
 <br />
@@ -179,42 +179,42 @@ Nov. 2023
         - **Windows プラン**: 任意 (既定の名前を変更する場合は新規作成をクリックして入力)
 
         - **価格プラン**: エラスティック Premium EP1 (ACU 合計 210, 3.5 GB メモリ, 1 vCPU)
-    
+
       - **ゾーン冗長**
 
         - **ゾーン冗長**: 無効
 
         <img src="images/create-azure-functions-02.png" />
 
-    - **Storage**
+  - **Storage**
 
-      - **ストレージ アカウント**: (新規)xxx (名前を変更する場合は新規作成をクリックして入力、英子文字、数字で 3 ～ 24 文字)
+    - **ストレージ アカウント**: (新規)xxx (名前を変更する場合は新規作成をクリックして入力、英子文字、数字で 3 ～ 24 文字)
 
-        <img src="images/create-azure-functions-03.png" />
-    
-    - **ネットワーク**
+      <img src="images/create-azure-functions-03.png" />
 
-      - **パブリック アクセスを有効にする**: オン
+  - **ネットワーク**
 
-      - **ネットワーク インジェクションを有効にする**: オフ
+    - **パブリック アクセスを有効にする**: オン
 
-        <img src="images/create-azure-functions-04.png" />
+    - **ネットワーク インジェクションを有効にする**: オフ
 
-    - **監視**
+      <img src="images/create-azure-functions-04.png" />
 
-      - **Application Insights を有効にする**: いいえ
+  - **監視**
 
-        <img src="images/create-azure-functions-05.png" />
+    - **Application Insights を有効にする**: いいえ
 
-    - **デプロイ**
+      <img src="images/create-azure-functions-05.png" />
 
-      - **継続的デプロイ**: 無効化
+  - **デプロイ**
 
-        <img src="images/create-azure-functions-06.png" />
-    
-    - **確認および作成** をクリック、表示される内容を確認し **作成** をクリック
+    - **継続的デプロイ**: 無効化
 
-      <img src="images/create-azure-functions-07.png" />
+      <img src="images/create-azure-functions-06.png" />
+
+  - **確認および作成** をクリック、表示される内容を確認し **作成** をクリック
+
+    <img src="images/create-azure-functions-07.png" />
 
   </details>
 
@@ -222,6 +222,75 @@ Nov. 2023
 
   <details>
     <summary>Python</summary>
+
+  - **基本**
+
+    - **プロジェクトの詳細**
+
+      - **サブスクリプション**: ワークショップで使用するサブスクリプション
+
+      - **リソース グループ**: ワークショップで使用するリソース グループ
+
+    - **インスタンスの詳細**
+
+      - **関数アプリ名**: 任意の名前 (2 ～ 60 文字、英数字、およびハイフンのみ)
+
+      - **コードまたはコンテナー**: コード
+
+      - **ランタイム スタック**: Python
+
+      - **バージョン**: 3.10
+
+      - **地域**: リソース グループと同じ地域を選択
+
+    - **オペレーティング システム**
+
+      - **オペレーティング システム**: Linux
+
+    - **ホスティング**
+
+      - **ホスティング オプションとプラン**: Functions Premium
+
+      - **Linux プラン**: 任意 (既定の名前を変更する場合は新規作成をクリックして入力)
+
+      - **価格プラン**: エラスティック Premium EP1 (ACU 合計 210, 3.5 GB メモリ, 1 vCPU)
+
+    - **ゾーン冗長**
+
+      - **ゾーン冗長**: 無効
+
+      <img src="images/create-azure-functions-python-02.png" />
+
+  - **Storage**
+
+    - **ストレージ アカウント**: (新規)xxx (名前を変更する場合は新規作成をクリックして入力、英子文字、数字で 3 ～ 24 文字)
+
+      <img src="images/create-azure-functions-03.png" />
+
+  - **ネットワーク**
+
+    - **パブリック アクセスを有効にする**: オン
+
+    - **ネットワーク インジェクションを有効にする**: オフ
+
+      <img src="images/create-azure-functions-04.png" />
+
+  - **監視**
+
+    - **Application Insights を有効にする**: いいえ
+
+      <img src="images/create-azure-functions-05.png" />
+
+  - **デプロイ**
+
+    - **継続的デプロイ**: 無効化
+
+      <img src="images/create-azure-functions-06.png" />
+
+  - **確認および作成** をクリック、表示される内容を確認し **作成** をクリック
+
+    <img src="images/create-azure-functions-python-07.png" />
+
   </details>
 
 <br />
@@ -247,9 +316,9 @@ Nov. 2023
   <details>
     <summary>C#</summary>
 
-    ```
-    cd src/CS/Api1
-    ```
+  ```
+  cd src/CS/Api1
+  ```
 
   </details>
 
@@ -257,6 +326,11 @@ Nov. 2023
 
   <details>
     <summary>Python</summary>
+
+  ```
+  cd src/Python/Api1
+  ```
+
   </details>
 
   <br />
@@ -296,6 +370,8 @@ Nov. 2023
   - **名前**: SqlConnectionString
 
   - **値**: SQL Database への接続文字列
+
+    - **注意** : Python の場合、接続文字列の冒頭 **Driver={ODBC Driver 18 for SQL Server}** を **Driver={ODBC Driver 17 for SQL Server}** に変更してください。
 
     <img src="images/function-configuration-02.png" />
 
@@ -430,7 +506,7 @@ Nov. 2023
       - **パフォーマンス**: Standard
 
       - **冗長性**: ローカル冗長ストレージ (LRS)
-    
+
     <img src="images/create-storage-account-02.png" />
 
   - **レビュー** をクリック
@@ -782,7 +858,7 @@ Nov. 2023
       - **サブスクリプション**: ワークショップで使用中のサブスクリプション
 
       - **リソース グループ**: ワークショップで使用中のリソース グループ
-    
+
     - **インスタンスの詳細**
 
       - **名前**: 任意 (2 ～ 64 文字、英数字、ピリオド、アンダースコア、ハイフン)
@@ -974,7 +1050,7 @@ Nov. 2023
       - **サブスクリプション**: ワークショップで使用中のサブスクリプション
 
       - **リソース グループ**: ワークショップで使用中のリソース グループ
-    
+
     - **インスタンスの詳細**
 
       - **名前**: 任意 (2 ～ 64 文字、英数字、ピリオド、アンダースコア、ハイフン)
@@ -1138,7 +1214,7 @@ Nov. 2023
   - **サブスクリプションを要求する**: オフ
 
     <img src="images/new-product-02.png" />
-  
+
 - **作成** をクリックして、製品を作成
 
 <br />
@@ -1251,7 +1327,7 @@ Nov. 2023
       - **audit**: オン
 
       - **allLogs**: オン
-  
+
   - **メトリック**
 
     - **AllMetrics**: オン
@@ -1321,7 +1397,7 @@ Nov. 2023
   - **Products**: Cloud Workshop, Unlimited
 
     <img src="images/add-version-02.png" />
-  
+
 - **Create** をクリックし、バージョンを追加
 
 - 追加したバージョン (v2) の関数名 (GetProduct) を選択、Outbound processing の **</>** をクリック
@@ -1371,8 +1447,8 @@ Nov. 2023
 - クエリを記述し **実行** をクリック
 
   ```
-  ApiManagementGatewayLogs 
-  | where TimeGenerated > ago(1h) 
+  ApiManagementGatewayLogs
+  | where TimeGenerated > ago(1h)
   | sort by TimeGenerated asc
   ```
 

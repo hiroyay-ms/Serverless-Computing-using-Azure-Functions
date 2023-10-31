@@ -335,9 +335,19 @@ Nov. 2023
 
 <br />
 
-## Exercise 8: SQL Database のテーブル作成とファイアウォール設定
+## Exercise 8: SQL Database のファイアウォール設定とテーブル作成
 
-### Task 1: テーブルの作成
+### Task 1: ファイアウォールの設定
+
+- **概要** を選択し、**サーバー ファイアウォールの設定** をクリック
+
+- **例外** の **Azure サービスおよびリソースにこのサーバーへのアクセスを許可する** にチェックを付け、 **保存**　をクリック
+
+  <img src="images/sql-firewall-exeption.png" />
+
+<br />
+
+### Task 2: テーブルの作成
 
 - SQL Database (AdventureWorksLT) の管理ブレードを表示
 
@@ -361,16 +371,6 @@ Nov. 2023
 - クエリが成功しましたのメッセージが表示され、テーブルが追加されたことを確認
 
   <img src="images/create-table-03.png" />
-
-<br />
-
-### Task 2: ファイアウォールの設定
-
-- **概要** を選択し、**サーバー ファイアウォールの設定** をクリック
-
-- **例外** の **Azure サービスおよびリソースにこのサーバーへのアクセスを許可する** にチェックを付け、 **保存**　をクリック
-
-  <img src="images/sql-firewall-exeption.png" />
 
 <br />
 

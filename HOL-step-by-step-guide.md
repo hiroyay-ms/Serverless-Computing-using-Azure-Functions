@@ -337,27 +337,69 @@ Nov. 2023
 
 - func azure functionapp publish コマンドでプロジェクト ファイルをデプロイ
 
+  <details>
+    <summary>C#</summary>
+    
   ```
-  func azure functionapp publish <作成した関数アプリ名>
+  func azure functionapp publish <作成した関数アプリ名> --csharp
   ```
 
-- デプロイが正常に終了したことを確認
+  - デプロイが正常に終了したことを確認
 
-  <img src="images/deploy-function-02.png" />
+    <img src="images/deploy-function-02.png" />
 
-<br />
+  </details>
+
+  <br />
+
+  <details>
+    <summary>Python</summary>
+    
+  ```
+  func azure functionapp publish <作成した関数アプリ名> --python
+  ```
+
+  - デプロイが正常に終了したことを確認
+
+    <img src="images/deploy-function-02.png" />
+
+  </details>
+
+  <br />
 
 ### Task 3: 関数アプリの構成
 
 - Azure ポータルで SQL Database (AdventureWorksLT) の管理ブレードを表示
 
-- **接続文字列** を選択し **ADO.NET (SQL 認証)** の接続文字列をコピーし、メモ帳などのテキスト エディターに貼り付け
+  <details>
+      <summary>C#</summary>
 
-  <img src="images/sql-connection-string.png" />
+  - **接続文字列** を選択し **ADO.NET (SQL 認証)** の接続文字列をコピーし、メモ帳などのテキスト エディターに貼り付け
 
-- **{your_password}** を SQL Database への認証で使用するアカウントのパスワードに変更
+    <img src="images/sql-connection-string.png" />
 
-  ※ 後の手順で使用するためコピー
+  - **{your_password}** を SQL Database への認証で使用するアカウントのパスワードに変更
+
+            ※ 後の手順で使用するためコピー
+
+  </details>
+
+  <br />
+
+  <details>
+      <summary>Python</summary>
+
+  - **接続文字列** を選択し **ODBC (Node.js を含む) (SQL 認証)** の接続文字列をコピーし、メモ帳などのテキスト エディターに貼り付け
+
+    <img src="images/sql-connection-string-python.png" />
+
+  - **{your_password}** を SQL Database への認証で使用するアカウントのパスワードに変更
+
+  - **接続文字列の冒頭 Driver={ODBC Driver 18 for SQL Server} を Driver={ODBC Driver 17 for SQL Server} に変更してください。**
+
+            ※ 後の手順で使用するためコピー
+
+  </details>
 
 - Azure Functions の管理ブレードへ移動
 
@@ -817,7 +859,7 @@ Nov. 2023
 
 <br />
 
-### Task 5: 関数アプリの実行
+### Task 6: 関数アプリの実行
 
 - **概要** を選択、関数に表示される **GetProduct** をクリック
 
@@ -837,7 +879,7 @@ Nov. 2023
 
 <br />
 
-### Task 6: Azure Functions のネットワーク構成 (受信)
+### Task 7: Azure Functions のネットワーク構成 (受信)
 
 - Azure Functions の管理ブレードへ移動、**ネットワーク** を選択
 
@@ -929,7 +971,7 @@ Nov. 2023
 
 <br />
 
-### Task 7: 関数アプリの実行
+### Task 8: 関数アプリの実行
 
 - **概要** を選択、関数に表示される **GetProduct** をクリック
 
@@ -945,7 +987,7 @@ Nov. 2023
 
   <img src="images/function-result-01.png" />
 
-  ※ インターネットを介したアクセスが拒否されることを確認
+  ※ インターネットを介したアクセスが拒否されることを確認（ご自身のローカル端末からアクセスし、403 エラーが返ってくることを確認してください。）
 
   <img src="images/function-result-02.png" />
 

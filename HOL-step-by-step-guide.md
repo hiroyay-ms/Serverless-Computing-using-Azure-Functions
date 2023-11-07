@@ -341,7 +341,7 @@ Nov. 2023
     <summary>C#</summary>
     
   ```
-  func azure functionapp publish <作成した関数アプリ名> --csharp
+  func azure functionapp publish <作成した関数アプリ名>
   ```
 
   - デプロイが正常に終了したことを確認

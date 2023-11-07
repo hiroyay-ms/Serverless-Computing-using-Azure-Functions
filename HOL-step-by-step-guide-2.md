@@ -305,6 +305,8 @@ Nov. 2023
   func azure functionapp publish <作成した関数アプリ名>
   ```
 
+  ※ Python の場合は、最後に --python を付与して実行
+
 - デプロイが正常に終了したことを確認
 
   <img src="images/deploy-function-03.png" />

@@ -326,9 +326,12 @@ Nov. 2023
   <details>
   <summary>C#</summary>
 
-  - **名前**: CosmosConnectionString
+  
+  - **名前**: SqlConnectionString
 
-  - **値**: Cosmos DB への接続文字列 (リソースグループにある Cosmos DB アカウントを開き、左のメニューの設定の下にあるキーのページから**プライマリ接続文字列**の値をコピーして貼り付け)
+  - **値**: SQL Database への接続文字列
+
+    <img src="images/function-configuration-02.png" />
 
   </details>
 
@@ -337,11 +340,9 @@ Nov. 2023
   <details>
   <summary>Python</summary>
 
-  - **名前**: SqlConnectionString
+  - **名前**: CosmosConnectionString
 
-  - **値**: SQL Database への接続文字列
-
-    <img src="images/function-configuration-02.png" />
+  - **値**: Cosmos DB への接続文字列 (リソースグループにある Cosmos DB アカウントを開き、左のメニューの設定の下にあるキーのページから**プライマリ接続文字列**の値をコピーして貼り付け)
 
   </details>
 

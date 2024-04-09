@@ -1308,15 +1308,15 @@ Nov. 2023
 
 <br />
 
-### Task 4: 関数アプリの実行
+### Task 4: API Management 経由での関数アプリの実行
 
 - **概要** を選択、関数に表示される **ゲートウェイの URL** をコピー
 
   <img src="images/api-test-04.png" />
 
-- Web ブラウザーを起動し、アドレス バーに関数アプリの展開時に出力された URL を貼り付け
+- Web ブラウザーを起動し、アドレス バーに API Management 経由の GetProduct API の URL となる **ゲートウェイの URL/api/GetProduct?id=xx** を貼り付けて実行
 
-- /api/GetProduct?id=xx (xx は数字、5, 7, 10, 22, 27, 35 のいずれかを指定) を付与して実行
+- /api/GetProduct?id=xx の xx は数字、5, 7, 10, 22, 27, 35 のいずれかを指定
 
   <img src="images/function-result-01.png" />
 

@@ -323,11 +323,27 @@ Nov. 2023
 
 - アプリケーション設定の追加/編集画面で、追加する構成の名前、値を入力し **OK** をクリック
 
+  <details>
+  <summary>C#</summary>
+
+  - **名前**: CosmosConnectionString
+
+  - **値**: Cosmos DB への接続文字列 (リソースグループにある Cosmos DB アカウントを開き、左のメニューの設定の下にあるキーのページから**プライマリ接続文字列**の値をコピーして貼り付け)
+
+  </details>
+
+  <br />
+  
+  <details>
+  <summary>Python</summary>
+
   - **名前**: SqlConnectionString
 
   - **値**: SQL Database への接続文字列
 
     <img src="images/function-configuration-02.png" />
+
+  </details>
 
 - **保存** をクリック
 
@@ -337,7 +353,7 @@ Nov. 2023
 
 <br />
 
-## Exercise 8: SQL Database のファイアウォール設定とテーブル作成
+## Exercise 8: SQL Database のファイアウォール設定とテーブル作成  (Python 版では実施不要)
 
 ### Task 1: ファイアウォールの設定
 
@@ -414,7 +430,7 @@ Nov. 2023
 
         <img src="images/create-event-03.png" />
 
-- **作成** をクリック (**フィルター**、**追加の機能**、**配信プロパティ**、**詳細エディター** の設定は既定のまま)
+- **作成** をクリック (**フィルター**、**追加の機能**、**配信プロパティ**、**詳細エディター** の設定は既定のまま) (Python 版では、トリガーは eventGridTrigger)
 
   <img src="images/create-event-04.png" />
 

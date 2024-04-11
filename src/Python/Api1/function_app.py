@@ -1,14 +1,14 @@
 import azure.functions as func
-import logging
-import os
-import pyodbc
-import product as p
-import json
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
-@app.route(route="GetProduct")
+@app.route(route="GetProduct", methods=("GET",))
 def GetProduct(req: func.HttpRequest) -> func.HttpResponse:
+    import logging
+    import os
+    import pyodbc
+    import product as p
+    import json
     logging.info('Python HTTP trigger function processed a request.')
 
     id = req.params.get('id')
